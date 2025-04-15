@@ -63,7 +63,7 @@ Feel free to fork this repo, raise issues, or pitch ideas! Let’s build somethi
 
 Feel free to reach out:
 - [muhammedsirajudeen29@gmail.com](mailto:your-email@example.com)
-- [@yourhandle on Instagram](#)
+- [@siraju__sj](#)
 
 ---
 
