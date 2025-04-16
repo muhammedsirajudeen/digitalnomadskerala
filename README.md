@@ -25,6 +25,18 @@ Whether you're working from a beachside café in Varkala, a tea estate in Munnar
 
 ---
 
+## 🛠️ Environment Setup Template
+
+To get started with this project, create a `.env` file in the root directory and add the following variables:
+
+```env
+# General Settings
+MONGODB_URI=
+NEXT_PUBLIC_GOOGLE_CLIENTID=
+```
+
+> **Note:** Replace placeholder values with your actual configuration details.
+
 ## 📌 How to Join
 
 Whether you're a local freelancer, a traveling startup founder, or just exploring remote life, you're welcome here.
@@ -69,4 +81,5 @@ Feel free to reach out:
 
 > “Live freely. Work remotely. Connect deeply.”  
 > — The Digital Nomads Kerala Team
+
 
