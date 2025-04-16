@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { MapPin, Calendar, Users, Coffee, Send } from "lucide-react"
+import { MapPin, Calendar, Users, Coffee, Send, CoffeeIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -180,8 +180,11 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-
+      <Button className="bg-emerald-400 hover:bg-emerald-600 fixed bottom-2 right-2 rounded-full p-1 w-14 h-14">
+        <Link className="w-full h-full flex items-center justify-center" href="https://buymeacoffee.com/muhammedsirajudeen">
+          <CoffeeIcon className=" scale-150" />
+        </Link>
+      </Button>
     </div>
   )
 }
