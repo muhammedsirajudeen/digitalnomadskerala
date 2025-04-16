@@ -1,5 +1,6 @@
 import { BaseRepository } from './BaseRepository';
-import { Document, FilterQuery } from 'mongoose';
+import { Document, FilterQuery, PopulateOptions } from 'mongoose';
+
 
 export class BaseService<T extends Document> {
     private repository: BaseRepository<T>;
@@ -20,8 +21,16 @@ export class BaseService<T extends Document> {
         return this.repository.findOne(filter);
     }
 
-    async findAll(filter: FilterQuery<T> = {}): Promise<T[]> {
-        return this.repository.findAll(filter);
+    async findAll(
+        filter: FilterQuery<T> = {},
+        page: number = 1,
+        limit: number = 10,
+        populate?: PopulateOptions[],
+        select?: string
+    ): Promise<{ data: T[]; total: number; page: number; limit: number }> {
+        const data = await this.repository.findAll(filter, page, limit, populate, select);
+        const total = await this.repository.count(filter);
+        return { data, total, page, limit };
     }
 
     async updateById(id: string, update: Partial<T>): Promise<T | null> {

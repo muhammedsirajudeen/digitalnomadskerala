@@ -1,5 +1,8 @@
 import { Model, Document, FilterQuery, UpdateQuery, QueryOptions } from 'mongoose';
-
+export interface PopulateOptions {
+    path: string
+    select?: string
+}
 export class BaseRepository<T extends Document> {
     private model: Model<T>;
 
@@ -21,8 +24,10 @@ export class BaseRepository<T extends Document> {
         return this.model.findOne(filter).exec();
     }
 
-    async findAll(filter: FilterQuery<T> = {}): Promise<T[]> {
-        return this.model.find(filter).exec();
+    async findAll(filter: FilterQuery<T> = {}, page: number = 1, limit: number = 10, populate?: PopulateOptions[], select?: string
+    ): Promise<T[]> {
+        const skip = (page - 1) * limit;
+        return this.model.find(filter).skip(skip).limit(limit).populate(populate ?? []).select(select ?? "").exec();
     }
 
     async updateById(id: string, update: UpdateQuery<T>, options: QueryOptions = { new: true }): Promise<T | null> {
