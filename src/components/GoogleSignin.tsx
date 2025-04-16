@@ -4,26 +4,34 @@ import { LogOut } from "lucide-react"
 import { Button } from "./ui/button"
 import { useGoogleLogin } from "@react-oauth/google"
 import axiosInstance from "@/utils/axiosInstance"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import GlobalContext from "@/app/provider/GlobalContext"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Card } from "./ui/card"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import { ToastStyles } from "@/lib/utils"
 
 export default function GoogleSignin() {
     const { isLoggedIn, user,setUser,setIsLoggedIn } = useContext(GlobalContext)
+    const [loading,setLoading]=useState(false)
     const router=useRouter()
     const googleSignIn = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
             console.log(tokenResponse)
+            setLoading(true)
             try {
                 const response = await axiosInstance.post("/auth/signin", { access_token: tokenResponse.access_token })
                 console.log(response.data)
                 setUser(response.data.user)
                 setIsLoggedIn(true)
+                toast.success('Login Successful',ToastStyles.success)
             } catch (error) {
                 console.log(error)
+            }
+            finally{
+                setLoading(false)
             }
         },
     })
@@ -83,8 +91,9 @@ export default function GoogleSignin() {
             className="flex justify-center"
         >
             <Button
+                disabled={loading}
                 onClick={() => googleSignIn()}
-                className="bg-emerald-600 hover:bg-emerald-700 w-64 h-12 rounded-full shadow-lg flex items-center justify-center gap-3 transition-all duration-300 group"
+                className="bg-emerald-600 hover:bg-emerald-700 w-52   shadow-lg flex items-center justify-center gap-3 transition-all duration-300 group"
             >
                 <div className="bg-white p-1.5 rounded-full group-hover:bg-emerald-50 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
@@ -106,7 +115,7 @@ export default function GoogleSignin() {
                         />
                     </svg>
                 </div>
-                <span className="text-white font-medium text-lg">Sign in with Google</span>
+                <span className="text-white">Login/Signup</span>
             </Button>
         </motion.div>
     )

@@ -5,6 +5,7 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import { envConfig } from "@/utils/envConfig";
 import GlobalProvider from "./provider/GlobalProvider";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Toaster/>
         <GoogleOAuthProvider clientId={envConfig.GOOGLE_CLIENTID}>
           <GlobalProvider>
             {children}
