@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import "./globals.css";
 import Footer from "@/components/Footer";
+import { envConfig } from "@/utils/envConfig";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +30,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <GoogleOAuthProvider clientId={envConfig.GOOGLE_CLIENTID}>
+          {children}
+        </GoogleOAuthProvider>
         <Footer/>
       </body>
     </html>

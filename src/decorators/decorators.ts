@@ -1,16 +1,25 @@
-import connectToMongo from "@/utils/connectToMongo"
-import mongoose from "mongoose"
+import connectToMongo from "@/utils/connectToMongo";
+import mongoose from "mongoose";
+import { NextRequest, NextResponse } from "next/server";
 
-export function withLoggingAndDB<T>(handler: () => T): () => T {
-    return () => {
+export function withLoggingAndErrorHandling(handler: (request: NextRequest) => Promise<NextResponse>) {
+    return async (request: NextRequest): Promise<NextResponse> => {
+        console.log(`[Request] ${request.method} ${request.url}`);
+        connectToMongo()
         try {
-            connectToMongo()
-            const res = handler()
-            return res
+            const response = await handler(request);
+            console.log(`[Response] Status: ${response.status}`);
+            return response;
         } catch (error) {
-            console.log('[Error from Action]', error)
-            mongoose.connection.close()
-            throw error // Re-throw the error to ensure proper error handling
+            console.error("[Error in Route Handler]", error);
+            return NextResponse.json(
+                { message: "An unexpected error occurred", error: error instanceof Error ? error.message : error },
+                { status: 500 }
+            );
         }
-    }
+        finally {
+            await mongoose.connection.close();
+            console.log(`[End] ${request.method} ${request.url}`);
+        }
+    };
 }

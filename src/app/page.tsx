@@ -4,6 +4,7 @@ import { MapPin, Calendar, Users, Coffee, Send } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import GoogleSignin from "@/components/GoogleSignin"
 
 export default function LandingPage() {
   return (
@@ -25,13 +26,14 @@ export default function LandingPage() {
           </h1>
           <p className="mb-8 text-xl text-white md:text-2xl">Work, travel, and connect in God&apos;s Own Country</p>
           <div className="flex flex-col items-center justify-center gap-3">
-            <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700">
+            <GoogleSignin/>
+            <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 w-52">
               <Link href="#join" className="flex items-center gap-2">
                 Join Our Community
                 <Send size={18} />
               </Link>
             </Button>
-            <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700">
+            <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 w-52">
               <Link href="/nomads" className="flex items-center gap-2">
                 Our Nomads
                 <Users size={18} />
