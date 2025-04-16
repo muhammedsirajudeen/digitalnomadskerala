@@ -32,3 +32,12 @@ export const ToastStyles = {
     }
   }
 } as const
+
+
+export const fetcher = async (url: string) => {
+  const response = await fetch(url, { credentials: "include" });
+  if (!response.ok) {
+    throw new Error(`Error: ${response.statusText}`);
+  }
+  return await response.json();
+};

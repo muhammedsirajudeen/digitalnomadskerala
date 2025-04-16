@@ -49,7 +49,7 @@ export default function GoogleSignin() {
     if (isLoggedIn) {
         return (
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-                <Card className="p-6 bg-gradient-to-br from-emerald-400 to-emerald-800 border-emerald-600 shadow-lg max-w-xs mx-auto">
+                <Card className="p-6 bg-gradient-to-br backdrop-blur-lg shadow-lg max-w-xs mx-auto">
                     <div className="flex flex-col items-center space-y-4">
                         <div className="relative">
                             <div className="absolute inset-0 bg-emerald-500 rounded-full blur-md opacity-50"></div>

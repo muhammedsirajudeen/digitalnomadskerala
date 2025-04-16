@@ -7,8 +7,9 @@ import { NextRequest, NextResponse } from "next/server";
 export function withLoggingAndErrorHandling(handler: (request: NextRequest) => Promise<NextResponse>) {
     return async (request: NextRequest): Promise<NextResponse> => {
         console.log(`[Request] ${request.method} ${request.url}`);
-        connectToMongo()
-        try {
+        if (mongoose.connection.readyState === 0) {
+            await connectToMongo()
+        } try {
             const response = await handler(request);
             console.log(`[Response] Status: ${response.status}`);
             return response;
@@ -20,7 +21,6 @@ export function withLoggingAndErrorHandling(handler: (request: NextRequest) => P
             );
         }
         finally {
-            await mongoose.connection.close();
             console.log(`[End] ${request.method} ${request.url}`);
         }
     };
@@ -33,7 +33,9 @@ export interface CustomRequest extends NextRequest {
 export function withAuthentication(handler: (request: CustomRequest) => Promise<NextResponse>) {
     return async (request: CustomRequest): Promise<NextResponse> => {
         console.log(`[Request] ${request.method} ${request.url}`);
-        connectToMongo()
+        if (mongoose.connection.readyState === 0) {
+            await connectToMongo()
+        }
         const token = request.cookies.get("access_token")?.value;
         if (!token) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -41,7 +43,6 @@ export function withAuthentication(handler: (request: CustomRequest) => Promise<
 
         try {
             const user = JWTHelper.decode(token)
-            console.log(user)
             if (!user) {
                 return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
             }
@@ -49,11 +50,10 @@ export function withAuthentication(handler: (request: CustomRequest) => Promise<
             request.user = user as User;
             return await handler(request);
         } catch (error) {
-            console.error("[Error in Authentication]", error);
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            console.error("[Error in Route]", error);
+            return NextResponse.json({ message: "Server Error" }, { status: 500 });
         }
         finally {
-            await mongoose.connection.close();
             console.log(`[End] ${request.method} ${request.url}`);
         }
     };
