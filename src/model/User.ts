@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model, Document } from "mongoose";
 
 export interface User {
     _id: string;
@@ -22,6 +22,6 @@ const UserSchema = new Schema<IUser>({
     isVerified: { type: Boolean, default: false },
 });
 
-const UserModel = model<IUser>("User", UserSchema);
+const UserModel = mongoose.models.User || model<IUser>("User", UserSchema);
 
 export default UserModel;
