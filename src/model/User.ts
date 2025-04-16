@@ -8,6 +8,7 @@ export interface User {
     createdAt: Date;
     updatedAt: Date;
     isVerified: boolean;
+    avatar: string
 }
 export interface IUser extends Omit<User, "_id">, Document {
 
@@ -20,6 +21,10 @@ const UserSchema = new Schema<IUser>({
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     isVerified: { type: Boolean, default: false },
+    avatar: {
+        type: String,
+        required: true,
+    }
 });
 
 const UserModel = mongoose.models.User || model<IUser>("User", UserSchema);

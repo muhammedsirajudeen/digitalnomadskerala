@@ -18,7 +18,7 @@ class ModelInjector<T> {
     }
 }
 
-container.registerInstance('UserModel', new ModelInjector(UserModel))
+container.registerInstance('UserModel', new ModelInjector(UserModel).getModel())
 container.registerSingleton('UserRepository', UserRepository)
 container.registerSingleton('UserService', UserService)
 

@@ -46,7 +46,7 @@ export class JWTHelper {
     }
 
     // Decode token without verifying (for reading payload only)
-    static decode(token: string): null | { [key: string]: string } | string {
+    static decode(token: string): unknown {
         return jwt.decode(token);
     }
 }

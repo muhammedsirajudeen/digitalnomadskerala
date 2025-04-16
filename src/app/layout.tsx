@@ -4,6 +4,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import "./globals.css";
 import Footer from "@/components/Footer";
 import { envConfig } from "@/utils/envConfig";
+import GlobalProvider from "./provider/GlobalProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <GoogleOAuthProvider clientId={envConfig.GOOGLE_CLIENTID}>
-          {children}
+          <GlobalProvider>
+            {children}
+          </GlobalProvider>
         </GoogleOAuthProvider>
         <Footer/>
       </body>

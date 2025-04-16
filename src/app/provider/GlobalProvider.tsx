@@ -11,8 +11,11 @@ export default function GlobalProvider({ children }: { children: React.ReactNode
             try {
                 const response = await axiosInstance.get('/auth/verify')
                 setUser(response.data.user)
+                setIsLoggedIn(true)
+                
             } catch (error) {
                 console.log(error)
+                setIsLoggedIn(false)
             }
         }
         userFetcher()
