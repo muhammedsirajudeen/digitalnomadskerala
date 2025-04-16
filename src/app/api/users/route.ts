@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import container from "@/core/config/config"
 import { withAuthentication } from "@/decorators/decorators"
 import UserService from "@/service/UserService"
