@@ -67,8 +67,8 @@ export function withAuthentication(handler: (request: CustomRequest) => Promise<
 }
 
 
-export function withAuthenticationById(handler: (request: CustomRequest, { params }: { params: { id: string } }) => Promise<NextResponse>) {
-    return async (request: CustomRequest, { params }: { params: { id: string } }): Promise<NextResponse> => {
+export function withAuthenticationById(handler: (request: CustomRequest, { params }: { params: Promise<{ id: string }> }) => Promise<NextResponse>) {
+    return async (request: CustomRequest, { params }: { params: Promise<{ id: string }> }): Promise<NextResponse> => {
         console.log(`[Request] ${request.method} ${request.url}`);
         if (mongoose.connection.readyState === 0) {
             await connectToMongo()
