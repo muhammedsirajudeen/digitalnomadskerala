@@ -9,8 +9,8 @@ export function cn(...inputs: ClassValue[]) {
 export const ToastStyles = {
   success: {
     style: {
-      backgroundColor: "lightgreen",
-      text: "black"
+      backgroundColor: "#059669",
+      text: "white"
     }
   },
   error: {
@@ -34,6 +34,8 @@ export const ToastStyles = {
 } as const
 
 
+
+
 export const fetcher = async (url: string) => {
   const response = await fetch(url, { credentials: "include" });
   if (!response.ok) {
@@ -41,3 +43,13 @@ export const fetcher = async (url: string) => {
   }
   return await response.json();
 };
+
+
+export class RouteError extends Error {
+  statusCode: number
+  constructor(message: string, statusCode: number) {
+    super(message);
+    this.name = "RouteError";
+    this.statusCode = statusCode;
+  }
+}

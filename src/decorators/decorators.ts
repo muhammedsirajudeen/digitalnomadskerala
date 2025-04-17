@@ -1,3 +1,4 @@
+import { RouteError } from "@/lib/utils";
 import { User } from "@/model/User";
 import connectToMongo from "@/utils/connectToMongo";
 import { JWTHelper } from "@/utils/jwtUtils";
@@ -15,6 +16,9 @@ export function withLoggingAndErrorHandling(handler: (request: NextRequest) => P
             return response;
         } catch (error) {
             console.error("[Error in Route Handler]", error);
+            if (error instanceof RouteError) {
+                return NextResponse.json({ message: error.message }, { status: error.statusCode });
+            }
             return NextResponse.json(
                 { message: "An unexpected error occurred", error: error instanceof Error ? error.message : error },
                 { status: 500 }
@@ -51,6 +55,9 @@ export function withAuthentication(handler: (request: CustomRequest) => Promise<
             return await handler(request);
         } catch (error) {
             console.error("[Error in Route]", error);
+            if (error instanceof RouteError) {
+                return NextResponse.json({ message: error.message }, { status: error.statusCode });
+            }
             return NextResponse.json({ message: "Server Error" }, { status: 500 });
         }
         finally {

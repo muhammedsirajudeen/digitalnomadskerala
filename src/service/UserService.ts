@@ -1,4 +1,5 @@
 import { BaseService } from "@/core/abstract/BaseService";
+import { RouteError } from "@/lib/utils";
 import { IUser } from "@/model/User";
 import UserRepository from "@/repository/UserRepository";
 import { inject, injectable } from 'tsyringe';
@@ -33,7 +34,7 @@ export default class UserService extends BaseService<IUser> {
             });
 
             if (!response.ok) {
-                throw new Error(`Failed to fetch Google profile: ${response.statusText}`);
+                throw new RouteError(`Failed to fetch Google profile: ${response.statusText}`, 401);
             }
 
             const profile: IGoogleUserProfile = await response.json();
@@ -53,7 +54,7 @@ export default class UserService extends BaseService<IUser> {
             return { ...user.toObject(), password: undefined } as IUser
         } catch (error) {
             console.error("Error during Google sign-in:", error);
-            throw error;
+            throw new RouteError("Google sign-in failed", 500);
         }
     }
 

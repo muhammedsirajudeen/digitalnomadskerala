@@ -26,9 +26,10 @@ export default function GoogleSignin() {
                 console.log(response.data)
                 setUser(response.data.user)
                 setIsLoggedIn(true)
-                toast.success('Login Successful',ToastStyles.success)
+                toast.success(<p className="text-white font-bold">Login Successful</p>,ToastStyles.success)
             } catch (error) {
                 console.log(error)
+                toast.error(<p className="text-white font-bold">Login Failed</p>,ToastStyles.error)
             }
             finally{
                 setLoading(false)
