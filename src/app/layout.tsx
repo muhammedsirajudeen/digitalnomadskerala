@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import "./globals.css";
 import Footer from "@/components/Footer";
 import { envConfig } from "@/utils/envConfig";
 import GlobalProvider from "./provider/GlobalProvider";
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/react"
 
+import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Analytics/>
         <Toaster />
         <GoogleOAuthProvider clientId={envConfig.GOOGLE_CLIENTID}>
           <GlobalProvider>
