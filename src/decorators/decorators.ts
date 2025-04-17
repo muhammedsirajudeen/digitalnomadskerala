@@ -65,3 +65,36 @@ export function withAuthentication(handler: (request: CustomRequest) => Promise<
         }
     };
 }
+
+
+export function withAuthenticationById(handler: (request: CustomRequest, { params }: { params: { id: string } }) => Promise<NextResponse>) {
+    return async (request: CustomRequest, { params }: { params: { id: string } }): Promise<NextResponse> => {
+        console.log(`[Request] ${request.method} ${request.url}`);
+        if (mongoose.connection.readyState === 0) {
+            await connectToMongo()
+        }
+        const token = request.cookies.get("access_token")?.value;
+        if (!token) {
+            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+        }
+
+        try {
+            const user = JWTHelper.decode(token)
+            if (!user) {
+                return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            }
+
+            request.user = user as User;
+            return await handler(request, { params });
+        } catch (error) {
+            console.error("[Error in Route]", error);
+            if (error instanceof RouteError) {
+                return NextResponse.json({ message: error.message }, { status: error.statusCode });
+            }
+            return NextResponse.json({ message: "Server Error" }, { status: 500 });
+        }
+        finally {
+            console.log(`[End] ${request.method} ${request.url}`);
+        }
+    };
+}

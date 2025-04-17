@@ -49,7 +49,8 @@ export default class UserService extends BaseService<IUser> {
                 password: profile.sub,
                 avatar: profile.picture,
                 email: profile.email,
-                isVerified: true
+                isVerified: true,
+                xp: 50 //the amount of xp a user gets when signing in with google
             })
             return { ...user.toObject(), password: undefined } as IUser
         } catch (error) {

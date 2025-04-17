@@ -1,6 +1,6 @@
 "use client"
 
-import { LogOut } from "lucide-react"
+import { LogOut, UserCircle } from "lucide-react"
 import { Button } from "./ui/button"
 import { useGoogleLogin } from "@react-oauth/google"
 import axiosInstance from "@/utils/axiosInstance"
@@ -12,6 +12,7 @@ import { Card } from "./ui/card"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { ToastStyles } from "@/lib/utils"
+import Link from "next/link"
 
 export default function GoogleSignin() {
     const { isLoggedIn, user,setUser,setIsLoggedIn } = useContext(GlobalContext)
@@ -67,15 +68,24 @@ export default function GoogleSignin() {
                             <h1 className="text-white font-bold text-2xl">Welcome to the Tribe</h1>
                             <p className="text-emerald-100 font-medium text-lg">{user?.name}</p>
                         </div>
-
+                        <Link href={`/nomads/${user?._id}`} className="flex items-center justify-center">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="mt-4  bg-white hover:bg-gray-200 w-40 transition-all duration-300"
+                            >
+                                <UserCircle className="mr-2 h-4 w-4" />
+                                <p className="font-bold" >Profile</p>
+                            </Button>
+                        </Link>
                         <Button
                             variant="outline"
                             size="sm"
-                            className="mt-4  bg-white hover:bg-gray-200 transition-all duration-300"
+                            className="mt-4  bg-white hover:bg-gray-200 w-40 transition-all duration-300"
                             onClick={signoutHandler}
                         >
                             <LogOut className="mr-2 h-4 w-4" />
-                            Sign Out
+                            <p className="font-bold" >Sign Out</p>
                         </Button>
                     </div>
                 </Card>

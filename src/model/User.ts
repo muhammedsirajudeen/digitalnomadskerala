@@ -9,6 +9,7 @@ export interface User {
     updatedAt: Date;
     isVerified: boolean;
     avatar: string
+    xp: number
 }
 export interface IUser extends Omit<User, "_id">, Document {
 
@@ -24,6 +25,10 @@ const UserSchema = new Schema<IUser>({
     avatar: {
         type: String,
         required: true,
+    },
+    xp: {
+        type: Number,
+        default: 0,
     }
 });
 
