@@ -54,7 +54,7 @@ export default function LandingPage() {
             <Button
               size="lg"
               variant="outline"
-              className=" text-emerald-400 hover:bg-emerald-800/30 min-w-52"
+              className=" text-emerald-400 hover:text-emerald-400 hover:pointer-fine min-w-52"
             >
               <Link href="/nomads" className="flex items-center gap-2">
                 Our Nomads
