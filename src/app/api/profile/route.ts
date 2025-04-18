@@ -4,7 +4,7 @@ import { CustomRequest, withAuthentication } from "@/decorators/decorators";
 import { RouteError } from "@/lib/utils";
 import UserService from "@/service/UserService";
 import { NextResponse } from "next/server";
-import { IUser } from '@/model/User';
+import { UpdateUserDto } from '@/dto/updateUserDto';
 
 export const GET = withAuthentication(
     async (request: CustomRequest) => {
@@ -20,9 +20,18 @@ export const GET = withAuthentication(
 
 export const PATCH = withAuthentication(async (request: CustomRequest) => {
     const userService: UserService = container.resolve("UserService");
-    const updateUser: IUser = await request.json()
+
+    const updateUser: UpdateUserDto = await request.json()
+
     //create a dto
-    const updatedUser = userService.updateById(request.user._id, updateUser)
+    const userDto = new UpdateUserDto(
+        updateUser.name,
+        updateUser.bio,
+        updateUser.location,
+        updateUser.interests,
+        updateUser.languages,
+    )
+    const updatedUser = userService.updateProfile(userDto, request.user._id)
 
     return NextResponse.json({ message: "success", user: { ...updatedUser, password: undefined } }, { status: 200 })
 })

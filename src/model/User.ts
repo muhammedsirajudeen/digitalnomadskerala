@@ -12,13 +12,13 @@ export interface User {
     xp: number
     bio?: string
     location?: string
-    interests?: string[]
-    countries?: number
-    languages?: string[]
-    trips?: { destination: string, date: string }[]
+    interests: string[]
+    languages: string[]
+    trips: { destination: string, date: string }[]
     connections?: number
     reviews?: number
     achievements?: { name: string, description: string, icon: string }[]
+    updated: boolean
 }
 export interface IUser extends Omit<User, "_id">, Document {
 
@@ -43,12 +43,12 @@ const UserSchema = new Schema<IUser>({
     bio: { type: String, default: "" },
     location: { type: String, default: "" },
     interests: { type: [String], default: [] },
-    countries: { type: Number, default: 0 },
     languages: { type: [String], default: [] },
     trips: { type: [{ destination: String, date: String }], default: [] },
     connections: { type: Number, default: 0 },
     reviews: { type: Number, default: 0 },
     achievements: { type: [{ name: String, description: String, icon: String }], default: [] },
+    updated: { type: Boolean, default: false }
 });
 
 const UserModel = mongoose.models.User || model<IUser>("User", UserSchema);

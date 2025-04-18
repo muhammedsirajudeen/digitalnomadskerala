@@ -43,21 +43,14 @@ interface UserResponse {
 
 // Mock data for the profile sections that aren't in the User model
 const mockUserData = {
-    bio: "Digital nomad exploring the world while working remotely. Passionate about sustainable travel and connecting with local communities.",
-    location: "Currently in Bali, Indonesia",
-    interests: ["Photography", "Hiking", "Local Cuisine", "Coworking", "Language Learning"],
     countries: 12,
-    languages: ["English", "Spanish", "Basic Indonesian"],
     trips: [
-        { destination: "Bali, Indonesia", date: "Current" },
-        { destination: "Chiang Mai, Thailand", date: "Jan 2023 - Mar 2023" },
-        { destination: "Lisbon, Portugal", date: "Aug 2022 - Dec 2022" },
+        { destination: "India", date: "Current" },
     ],
-    connections: 47,
-    reviews: 8,
+    connections: 0,
+    reviews: 0,
     achievements: [
-        { name: "Globe Trotter", description: "Visited 10+ countries", icon: "Globe" },
-        { name: "Community Builder", description: "Connected with 25+ nomads", icon: "Users" },
+        // { name: "Community Builder", description: "Connected with 25+ nomads", icon: "Users" },
         { name: "Early Adopter", description: "Joined in the first month", icon: "Star" },
     ],
 }
@@ -82,10 +75,10 @@ export default function ProfilePageComponent() {
         if (data?.user) {
             setEditData({
                 name: data.user.name,
-                bio: mockUserData.bio,
-                location: mockUserData.location,
-                interests: [...mockUserData.interests],
-                languages: [...mockUserData.languages],
+                bio: data.user.bio ?? "",
+                location: data.user.location ?? "",
+                interests: [...data.user.interests],
+                languages: [...data.user.languages],
                 newInterest: "",
                 newLanguage: "",
             })
@@ -114,14 +107,8 @@ export default function ProfilePageComponent() {
                 toast.warning(<p className="text-white font-bold" >Location cannot be empty and atleast three characters</p>,ToastStyles.warn)
                 return
             }
-
-
-            mockUserData.bio = editData.bio
-            mockUserData.location = editData.location
-            mockUserData.interests = editData.interests
-            mockUserData.languages = editData.languages
             
-            const response=await axiosInstance.patch('/profile',{user:editData})
+            const response=await axiosInstance.patch('/profile',editData)
             console.log(response)
             toast.success(<p className="text-white font-bold" >Profile updated successfully</p>,ToastStyles.success)
             mutate()
@@ -403,11 +390,12 @@ export default function ProfilePageComponent() {
                                                     name="bio"
                                                     value={editData.bio}
                                                     onChange={handleInputChange}
+                                                    placeholder="Enter your bio"
                                                     rows={4}
                                                     className="w-full"
                                                 />
                                             ) : (
-                                                <p className="text-gray-700">{mockUserData.bio}</p>
+                                                <p className="text-gray-700">{user.bio}</p>
                                             )}
                                         </Card>
 
@@ -446,7 +434,7 @@ export default function ProfilePageComponent() {
                                                 </div>
                                             ) : (
                                                 <div className="flex flex-wrap gap-2">
-                                                    {mockUserData.interests.map((interest, index) => (
+                                                    {user.interests.map((interest, index) => (
                                                         <Badge
                                                             key={index}
                                                             variant="secondary"
@@ -512,7 +500,7 @@ export default function ProfilePageComponent() {
                                     <div className="space-y-3">
                                         <div className="flex items-center">
                                             <Mail className="h-4 w-4 mr-2 text-emerald-600" />
-                                            <span className="text-gray-700">{user.email}</span>
+                                            <span className="text-gray-700 text-xs">{user.email}</span>
                                         </div>
                                         <div className="flex items-center">
                                             <Calendar className="h-4 w-4 mr-2 text-emerald-600" />
@@ -528,7 +516,7 @@ export default function ProfilePageComponent() {
                                                     className="flex-1"
                                                 />
                                             ) : (
-                                                <span className="text-gray-700">{mockUserData.location}</span>
+                                                <span className="text-gray-700">{user.location}</span>
                                             )}
                                         </div>
                                         <div className="flex items-center">
@@ -576,7 +564,7 @@ export default function ProfilePageComponent() {
                                         </div>
                                     ) : (
                                         <div className="space-y-2">
-                                            {mockUserData.languages.map((language, index) => (
+                                            {user.languages.map((language, index) => (
                                                 <div key={index} className="flex items-center">
                                                     <div className="h-2 w-2 rounded-full bg-emerald-500 mr-2"></div>
                                                     <span className="text-gray-700">{language}</span>

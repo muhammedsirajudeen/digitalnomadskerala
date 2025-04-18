@@ -1,4 +1,5 @@
 import { BaseService } from "@/core/abstract/BaseService";
+import { UpdateUserDto } from "@/dto/updateUserDto";
 import { RouteError } from "@/lib/utils";
 import { IUser } from "@/model/User";
 import UserRepository from "@/repository/UserRepository";
@@ -57,6 +58,23 @@ export default class UserService extends BaseService<IUser> {
             console.error("Error during Google sign-in:", error);
             throw new RouteError("Google sign-in failed", 500);
         }
+    }
+    async updateProfile(updateUser: UpdateUserDto, userId: string) {
+        const user = await this.findById(userId)
+        if (!user) {
+            throw new RouteError(`User with id ${userId} not found`, 404);
+        }
+        user.name = updateUser.name
+        user.bio = updateUser.bio
+        user.location = updateUser.location
+        user.languages = updateUser.languages
+        user.interests = updateUser.interests
+        console.log(user.updated)
+        if (user.updated === false) {
+            user.updated = true
+            user.xp += 50
+        }
+        await this.updateById(userId, user)
     }
 
 }
