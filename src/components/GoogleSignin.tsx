@@ -68,7 +68,7 @@ export default function GoogleSignin() {
                             <h1 className="text-white font-bold text-2xl">Welcome to the Tribe</h1>
                             <p className="text-emerald-100 font-medium text-lg">{user?.name}</p>
                         </div>
-                        <Link href={`/nomads/${user?._id}`} className="flex items-center justify-center">
+                        <Link href={`/profile`} className="flex items-center justify-center">
                             <Button
                                 variant="outline"
                                 size="sm"
