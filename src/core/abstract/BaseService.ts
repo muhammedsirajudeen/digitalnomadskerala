@@ -24,7 +24,7 @@ export class BaseService<T extends Document> {
     async findAll(
         filter: FilterQuery<T> = {},
         page: number = 1,
-        limit: number = 10,
+        limit: number = 20,
         populate?: PopulateOptions[],
         select?: string
     ): Promise<{ data: T[]; total: number; page: number; limit: number }> {
