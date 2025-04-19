@@ -28,8 +28,8 @@ export const PATCH = withAuthentication(async (request: CustomRequest) => {
         updateUser.name,
         updateUser.bio,
         updateUser.location,
-        updateUser.interests,
         updateUser.languages,
+        updateUser.interests,
     )
     const updatedUser = userService.updateProfile(userDto, request.user._id)
 
