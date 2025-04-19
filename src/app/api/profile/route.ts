@@ -31,7 +31,7 @@ export const PATCH = withAuthentication(async (request: CustomRequest) => {
         updateUser.languages,
         updateUser.interests,
     )
-    const updatedUser = userService.updateProfile(userDto, request.user._id)
+    await userService.updateProfile(userDto, request.user._id)
 
-    return NextResponse.json({ message: "success", user: { ...updatedUser, password: undefined } }, { status: 200 })
+    return NextResponse.json({ message: "success" }, { status: 200 })
 })
