@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://digitalnomadskerala.in/banner.jpg",
+        url: "https://digitalnomadskerala.in/preview.jpg",
         alt: "Digital Nomads Kerala Banner",
       },
     ],
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Digital Nomads Kerala",
     description: "A community for the growing indie hackers and digital nomads of Kerala.",
-    images: ["https://digitalnomadskerala.in/banner.jpg"],
+    images: ["https://digitalnomadskerala.in/preview.jpg"],
   },
   keywords: [
     "Digital Nomads",
