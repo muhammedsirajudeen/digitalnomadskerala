@@ -46,7 +46,7 @@ export function withAuthentication(handler: (request: CustomRequest) => Promise<
         }
 
         try {
-            const user = JWTHelper.decode(token)
+            const user = JWTHelper.verify(token)
             if (!user) {
                 return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
             }
@@ -79,7 +79,7 @@ export function withAuthenticationById(handler: (request: CustomRequest, { param
         }
 
         try {
-            const user = JWTHelper.decode(token)
+            const user = JWTHelper.verify(token)
             if (!user) {
                 return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
             }

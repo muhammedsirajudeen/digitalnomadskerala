@@ -15,17 +15,20 @@ import Link from "next/link"
 
 interface UserResponse {
   users: User[]
+  totalusers:string
 }
 
 export default function NomadsPage() {
   const [currentPage, setCurrentPage] = useState(1)
-  const [usersPerPage] = useState(6)
-  const { data, isLoading, error } = useSWR<UserResponse>("/api/users", fetcher)
-  const totalUsers = data?.users?.length || 0
+  const [usersPerPage] = useState(9)
+  const { data, isLoading, error } = useSWR<UserResponse>(`/api/users?page=${currentPage}`, fetcher)
+  const totalUsers = parseInt(data?.totalusers as string) || 0
   const totalPages = Math.ceil(totalUsers / usersPerPage)
+  console.log(totalPages,totalUsers)
+
   const indexOfLastUser = currentPage * usersPerPage
   const indexOfFirstUser = indexOfLastUser - usersPerPage
-  const currentUsers = data?.users?.slice(indexOfFirstUser, indexOfLastUser) || []
+  const currentUsers = data?.users || []
   const { user } = useContext(GlobalContext)
   const paginate = (pageNumber: number) => {
     if (pageNumber > 0 && pageNumber <= totalPages) {
@@ -118,7 +121,7 @@ export default function NomadsPage() {
           <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
             <p className="text-red-600">Failed to load nomads. Please try again later.</p>
           </div>
-        ) : data?.users?.length === 0 ? (
+        ) : data?.users?.length === 0 && currentPage===1 ? (
           <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-10 text-center">
             <p className="text-emerald-700 text-lg">No nomads found. Be the first to join!</p>
           </div>
@@ -201,7 +204,6 @@ export default function NomadsPage() {
               >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-
               <div className="flex items-center space-x-1">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
                   <Button

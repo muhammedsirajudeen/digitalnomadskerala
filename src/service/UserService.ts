@@ -64,11 +64,25 @@ export default class UserService extends BaseService<IUser> {
         if (!user) {
             throw new RouteError(`User with id ${userId} not found`, 404);
         }
+        const checkUser = await this.findOne({ name: updateUser.name, _id: { $ne: user.id } })
+        console.log(checkUser)
+        if (checkUser) {
+            throw new RouteError("Username exists", 409)
+        }
         user.name = updateUser.name
         user.bio = updateUser.bio
         user.location = updateUser.location
         user.languages = updateUser.languages
         user.interests = updateUser.interests
+        if (user.name.trim() === "" || user.name.length < 8) {
+            throw new RouteError("Please check your name", 400)
+        }
+        if (user.bio.trim() === "" || user.bio.length < 6) {
+            throw new RouteError("Please check your bio", 400)
+        }
+        if (user.location.trim() === "" || user.location.length < 3) {
+            throw new RouteError("Please check your location", 400)
+        }
         console.log(user.updated)
         if (user.updated === false) {
             user.updated = true

@@ -5,14 +5,13 @@ export class JWTHelper {
     private static options: SignOptions;
 
     static initialize(secret?: string, options: SignOptions = {}) {
-        this.secret = secret || envConfig.JWT_EXPIRES_IN;
+        this.secret = secret || envConfig.JWT_SECRET;
         this.options = {
-            expiresIn: '1d', // default expiry
+            expiresIn: '1d',
             ...options,
         };
     }
 
-    // Sign payload into a token
     static sign(payload: string | object | Buffer, customOptions: SignOptions = {}): string {
         this.initialize();
         if (!this.secret) {
@@ -24,7 +23,6 @@ export class JWTHelper {
         });
     }
 
-    // Verify token and return decoded payload
     static verify(token: string): JwtPayload | string | null {
         this.initialize()
         if (!this.secret) {
@@ -45,8 +43,8 @@ export class JWTHelper {
         }
     }
 
-    // Decode token without verifying (for reading payload only)
     static decode(token: string): unknown {
+        this.initialize()
         return jwt.decode(token);
     }
 }

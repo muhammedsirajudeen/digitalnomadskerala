@@ -36,6 +36,7 @@ import {
 } from "lucide-react"
 import { toast } from "sonner"
 import axiosInstance from "@/utils/axiosInstance"
+import { AxiosError } from "axios"
 
 interface UserResponse {
     user: User
@@ -108,8 +109,7 @@ export default function ProfilePageComponent() {
                 return
             }
             
-            const response=await axiosInstance.patch('/profile',editData)
-            console.log(response)
+            await axiosInstance.patch('/profile',editData)
             toast.success(<p className="text-white font-bold" >Profile updated successfully</p>,ToastStyles.success)
             mutate()
             setIsEditing(false)
@@ -117,7 +117,14 @@ export default function ProfilePageComponent() {
             
         } catch (error) {
             console.error("Failed to save changes:", error)
-            toast.error(<p className="text-white font-bold" >Failed to save changes</p>,ToastStyles.error)
+            const axiosError=error as AxiosError
+            if(axiosError.status===409){
+                toast.error(<p className="text-white">Name already exists. chose another one</p>,ToastStyles.error)
+            }else if(axiosError.status===400){
+                toast.error(<p className="text-white">Invalid informations</p>,ToastStyles.error)
+            }else{
+                toast.error(<p className="text-white font-bold" >Failed to save changes</p>,ToastStyles.error)
+            }
         }
         finally{
             setLoading(false)
@@ -198,9 +205,9 @@ export default function ProfilePageComponent() {
                             <p className="text-red-600">
                                 We couldn&apos;t find the nomad you&apos;re looking for. They may have moved on to a new destination.
                             </p>
-                            <Button onClick={() => router.push("/nomads")} className="mt-4 bg-emerald-600 hover:bg-emerald-700">
+                            <Button onClick={() => router.push("/")} className="mt-4 bg-emerald-600 hover:bg-emerald-700">
                                 <ChevronLeft className="mr-2 h-4 w-4" />
-                                Back to Nomads
+                                Back to Home
                             </Button>
                         </div>
                     </Card>
@@ -255,9 +262,9 @@ export default function ProfilePageComponent() {
                             </div>
                             <h2 className="text-2xl font-bold text-red-700">No Data Available</h2>
                             <p className="text-red-600">We couldn&apos;t load the nomad&apos;s profile data. Please try again later.</p>
-                            <Button onClick={() => router.push("/nomads")} className="mt-4 bg-emerald-600 hover:bg-emerald-700">
+                            <Button onClick={() => router.push("/")} className="mt-4 bg-emerald-600 hover:bg-emerald-700">
                                 <ChevronLeft className="mr-2 h-4 w-4" />
-                                Back to Nomads
+                                Back to Home
                             </Button>
                         </div>
                     </Card>
@@ -273,11 +280,11 @@ export default function ProfilePageComponent() {
                 <div className="mb-6 flex justify-between">
                     <Button
                         variant="ghost"
-                        onClick={() => router.push("/nomads")}
+                        onClick={() => router.push("/")}
                         className="text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 -ml-4"
                     >
                         <ChevronLeft className="mr-2 h-4 w-4" />
-                        Back to Nomads
+                        Back to Home
                     </Button>
                     
                     {/* Edit toggle button */}

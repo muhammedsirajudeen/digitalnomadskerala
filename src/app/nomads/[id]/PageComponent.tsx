@@ -35,20 +35,18 @@ interface UserResponse {
 // Mock data for the profile sections that aren't in the User model
 const mockUserData = {
   bio: "Digital nomad exploring the world while working remotely. Passionate about sustainable travel and connecting with local communities.",
-  location: "Currently in Bali, Indonesia",
-  interests: ["Photography", "Hiking", "Local Cuisine", "Coworking", "Language Learning"],
-  countries: 12,
-  languages: ["English", "Spanish", "Basic Indonesian"],
+  location: "",
+  interests: [],
+  countries: 1,
+  languages: [],
   trips: [
-    { destination: "Bali, Indonesia", date: "Current" },
-    { destination: "Chiang Mai, Thailand", date: "Jan 2023 - Mar 2023" },
-    { destination: "Lisbon, Portugal", date: "Aug 2022 - Dec 2022" },
+    // { destination: "Bali, Indonesia", date: "Current" },
+    // { destination: "Chiang Mai, Thailand", date: "Jan 2023 - Mar 2023" },
+    { destination: "India", date: "Current" },
   ],
-  connections: 47,
-  reviews: 8,
+  connections: 0,
+  reviews: 0,
   achievements: [
-    { name: "Globe Trotter", description: "Visited 10+ countries", icon: "Globe" },
-    { name: "Community Builder", description: "Connected with 25+ nomads", icon: "Users" },
     { name: "Early Adopter", description: "Joined in the first month", icon: "Star" },
   ],
 }
@@ -252,13 +250,13 @@ export default function NomadPageComponent() {
                   <TabsContent value="about" className="space-y-6">
                     <Card className="p-5">
                       <h3 className="font-semibold text-lg text-emerald-800 mb-3">Bio</h3>
-                      <p className="text-gray-700">{mockUserData.bio}</p>
+                      <p className="text-gray-700">{data.user.bio}</p>
                     </Card>
 
                     <Card className="p-5">
                       <h3 className="font-semibold text-lg text-emerald-800 mb-3">Interests</h3>
                       <div className="flex flex-wrap gap-2">
-                        {mockUserData.interests.map((interest, index) => (
+                        {data.user.interests.map((interest, index) => (
                           <Badge
                             key={index}
                             variant="secondary"
@@ -275,7 +273,7 @@ export default function NomadPageComponent() {
                     <Card className="p-5">
                       <h3 className="font-semibold text-lg text-emerald-800 mb-3">Travel History</h3>
                       <div className="space-y-4">
-                        {mockUserData.trips.map((trip, index) => (
+                        {data.user.trips.map((trip, index) => (
                           <div key={index} className="flex items-start">
                             <div className="mt-1 mr-3 h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
                               {index === 0 ? <MapPin className="h-4 w-4" /> : <Flag className="h-4 w-4" />}
@@ -294,7 +292,7 @@ export default function NomadPageComponent() {
                     <Card className="p-5">
                       <h3 className="font-semibold text-lg text-emerald-800 mb-3">Achievements</h3>
                       <div className="space-y-4">
-                        {mockUserData.achievements.map((achievement, index) => (
+                        {data.user.achievements?.map((achievement, index) => (
                           <div key={index} className="flex items-start">
                             <div className="mt-1 mr-3 h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
                               {achievement.icon === "Globe" ? (
@@ -323,19 +321,19 @@ export default function NomadPageComponent() {
                   <div className="space-y-3">
                     <div className="flex items-center">
                       <Mail className="h-4 w-4 mr-2 text-emerald-600" />
-                      <span className="text-gray-700">{user.email}</span>
+                      <span className="text-gray-700 text-xs">{user.email}</span>
                     </div>
                     <div className="flex items-center">
                       <Calendar className="h-4 w-4 mr-2 text-emerald-600" />
-                      <span className="text-gray-700">Joined {formatDate(user.createdAt)}</span>
+                      <span className="text-gray-700 text-xs">Joined {formatDate(user.createdAt)}</span>
                     </div>
                     <div className="flex items-center">
                       <MapPin className="h-4 w-4 mr-2 text-emerald-600" />
-                      <span className="text-gray-700">{mockUserData.location}</span>
+                      <span className="text-gray-700 text-xs">{data.user.location}</span>
                     </div>
                     <div className="flex items-center">
                       <Globe className="h-4 w-4 mr-2 text-emerald-600" />
-                      <span className="text-gray-700">{mockUserData.countries} countries visited</span>
+                      <span className="text-gray-700 text-xs">{mockUserData.countries} countries visited</span>
                     </div>
                   </div>
                 </Card>
@@ -343,7 +341,7 @@ export default function NomadPageComponent() {
                 <Card className="p-5">
                   <h3 className="font-semibold text-emerald-800 mb-3">Languages</h3>
                   <div className="space-y-2">
-                    {mockUserData.languages.map((language, index) => (
+                    {data.user.languages.map((language, index) => (
                       <div key={index} className="flex items-center">
                         <div className="h-2 w-2 rounded-full bg-emerald-500 mr-2"></div>
                         <span className="text-gray-700">{language}</span>
