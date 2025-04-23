@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import Footer from "@/components/Footer";
 import { envConfig } from "@/utils/envConfig";
 import GlobalProvider from "./provider/GlobalProvider";
 import { Toaster } from "sonner";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 
 import "./globals.css";
 import { Navbar } from "@/components/NavBar";
@@ -22,10 +22,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Digital Nomads Kerala",
-  description: "A community for the growing indie hackers and digital nomads of Kerala. A place for creative minds to rejoice",
+  description:
+    "A community for the growing indie hackers and digital nomads of Kerala. A place for creative minds to rejoice",
   openGraph: {
     title: "Digital Nomads Kerala",
-    description: "A community for the growing indie hackers and digital nomads of Kerala. A place for creative minds to rejoice",
+    description:
+      "A community for the growing indie hackers and digital nomads of Kerala. A place for creative minds to rejoice",
     url: "https://digitalnomadskerala.in/",
     type: "website",
     images: [
@@ -38,7 +40,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Digital Nomads Kerala",
-    description: "A community for the growing indie hackers and digital nomads of Kerala.",
+    description:
+      "A community for the growing indie hackers and digital nomads of Kerala.",
     images: ["https://digitalnomadskerala.in/preview.jpg"],
   },
   keywords: [
@@ -70,10 +73,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar/>
-        <Analytics/>
+        <Analytics />
         <Toaster />
         <GoogleOAuthProvider clientId={envConfig.GOOGLE_CLIENTID}>
+          <Navbar />
           <GlobalProvider>
             <div className="flex flex-col min-h-screen">
               <main className="flex-grow">{children}</main>
