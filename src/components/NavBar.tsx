@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import GoogleSignin from "./GoogleSignin";
+import { useEffect, useState } from "react";
 
 const navigationItems = [
   { title: "Home", href: "/#" },
@@ -22,8 +23,23 @@ const navigationItems = [
 ];
 
 export function Navbar() {
+  const [scroll,setScroll]=useState(false)
+  const handleScroll=()=>{
+    console.log(window.scrollY)
+    if(window.scrollY<=400){
+      setScroll(false)
+    }else{
+      setScroll(true)
+    }
+  }
+  useEffect(()=>{
+    document.addEventListener('scroll',handleScroll)
+    return()=>{
+      document.removeEventListener('scroll',handleScroll)
+    }
+  },[])
   return (
-    <header className="fixed top-0 z-50 w-full  bg-gradient-to-br text-white backdrop-blur-lg px-5">
+    <header className={`fixed top-0 z-50 w-full  bg-gradient-to-br ${scroll ? "text-black" :"text-white"} backdrop-blur-lg px-5`}>
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <Sheet>

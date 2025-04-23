@@ -8,7 +8,6 @@ import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/react";
 
 import "./globals.css";
-import { Navbar } from "@/components/NavBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -80,7 +79,6 @@ export default function RootLayout({
         <Toaster />
         <GoogleOAuthProvider clientId={envConfig.GOOGLE_CLIENTID}>
           <GlobalProvider>
-            <Navbar />
             <div className="flex flex-col min-h-screen">
               <main className="flex-grow">{children}</main>
               <Footer />
