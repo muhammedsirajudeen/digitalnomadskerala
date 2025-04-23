@@ -20,7 +20,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import GoogleSignin from "@/components/GoogleSignin";
 import { Badge } from "@/components/ui/badge";
 
 export default function LandingPage() {

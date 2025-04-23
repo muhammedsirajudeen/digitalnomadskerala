@@ -1,18 +1,15 @@
 "use client";
 
-import { LogOut, UserCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { useGoogleLogin } from "@react-oauth/google";
 import axiosInstance from "@/utils/axiosInstance";
 import { useContext, useState } from "react";
 import GlobalContext from "@/app/provider/GlobalContext";
-import Image from "next/image";
 import { motion } from "framer-motion";
-import { Card } from "./ui/card";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ToastStyles } from "@/lib/utils";
-import Link from "next/link";
+import NavbarProfile from "./NavbarProfile";
 
 export default function GoogleSignin() {
   const { isLoggedIn, user, setUser, setIsLoggedIn } =
@@ -58,57 +55,7 @@ export default function GoogleSignin() {
   };
   if (isLoggedIn) {
     return (
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <Card className="p-6 bg-gradient-to-br backdrop-blur-lg shadow-lg max-w-xs mx-auto">
-          <div className="flex flex-col items-center space-y-4">
-            <div className="relative">
-              <div className="absolute inset-0 bg-emerald-500 rounded-full blur-md opacity-50"></div>
-              <Image
-                src={(user?.avatar as string) || "/placeholder.svg"}
-                width={80}
-                height={80}
-                className="rounded-full border-2 border-white shadow-md relative z-10"
-                alt="profile-image"
-              />
-            </div>
-
-            <div className="text-center space-y-1">
-              <h1 className="text-white font-bold text-2xl">
-                Welcome to the Tribe
-              </h1>
-              <p className="text-emerald-100 font-medium text-lg">
-                {user?.name}
-              </p>
-            </div>
-            <Link
-              href={`/profile`}
-              className="flex items-center justify-center"
-            >
-              <Button
-                variant="outline"
-                size="sm"
-                className="mt-4  bg-white hover:bg-gray-200 w-40 transition-all duration-300"
-              >
-                <UserCircle className="mr-2 h-4 w-4" />
-                <p className="font-bold">Profile</p>
-              </Button>
-            </Link>
-            <Button
-              variant="outline"
-              size="sm"
-              className="mt-4  bg-white hover:bg-gray-200 w-40 transition-all duration-300"
-              onClick={signoutHandler}
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              <p className="font-bold">Sign Out</p>
-            </Button>
-          </div>
-        </Card>
-      </motion.div>
+      <NavbarProfile user={user} onSignOut={signoutHandler}/>
     );
   }
 

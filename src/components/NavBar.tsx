@@ -10,9 +10,6 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { envConfig } from "@/utils/envConfig";
-import GlobalProvider from "@/app/provider/GlobalProvider";
 import GoogleSignin from "./GoogleSignin";
 
 const navigationItems = [
