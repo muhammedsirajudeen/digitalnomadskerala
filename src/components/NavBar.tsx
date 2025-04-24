@@ -32,37 +32,60 @@ export function Navbar() {
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-5 w-5" />
+                <Menu className="size-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
-              <div className="flex flex-col gap-6 py-6">
-                <Link href="/" className="flex items-center gap-2">
-                  <PalmTree className="h-5 w-5 text-emerald-600" />
-                  <span className="font-bold">Digital Nomads Kerala</span>
-                </Link>
-                <nav className="flex flex-col gap-4">
-                  {navigationItems.map((item) => (
-                    <Link
-                      key={item.title}
-                      href={item.href}
-                      className="text-sm font-medium transition-colors hover:text-emerald-600"
-                    >
-                      {item.title}
-                    </Link>
-                  ))}
-                </nav>
-                <div className="flex flex-col gap-2">
-                  <Button variant="outline" className="w-full justify-start">
-                    <Users className="mr-2 h-4 w-4" />
-                    Our Nomads
+            <SheetContent side="left" className="bg-white">
+              <div className="flex flex-col justify-between h-screen px-3 py-5">
+                <div>
+                  <Link href="/" className="flex items-center gap-2 py-2">
+                    <PalmTree className="size-5 text-emerald-600" />
+                    <div className="font-bold">
+                      <span>Digital Nomads </span>
+                      <span className="text-emerald-600">Kerala</span>
+                    </div>
+                  </Link>
+
+                  <div className="flex flex-col gap-8 py-5">
+                    <nav className="flex flex-col gap-4 px-2">
+                      {navigationItems.map((item) => (
+                        <Link
+                          key={item.title}
+                          href={item.href}
+                          className="text-sm font-medium transition-colors hover:text-emerald-600"
+                        >
+                          {item.title}
+                        </Link>
+                      ))}
+                    </nav>
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        size="sm"
+                        className="w-full justify-center ring-1 ring-emerald-600 bg-transparent text-emerald-600"
+                      >
+                        <Users className="mr-2 h-4 w-4" />
+                        Our Nomads
+                      </Button>
+                      <Button
+                        size="sm"
+                        className="w-full bg-emerald-600 hover:bg-emerald-700"
+                      >
+                        Join Our Tribe
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full flex flex-col gap-2 py-2">
+                  <hr className="my-2 bg-black" />
+                  <Button
+                    size="sm"
+                    className="ring-1 ring-emerald-600 bg-transparent text-emerald-600"
+                  >
+                    Profile
                   </Button>
-                  <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
-                    Join Our Community
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    Login/Signup
+                  <Button size="sm" className=" bg-emerald-600  text-white">
+                    Logout
                   </Button>
                 </div>
               </div>
