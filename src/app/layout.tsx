@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Footer from "@/components/Footer";
@@ -8,7 +8,6 @@ import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/react";
 
 import "./globals.css";
-import { Navbar } from "@/components/NavBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,10 +56,13 @@ export const metadata: Metadata = {
     follow: true,
   },
   authors: [{ name: "Digital Nomads Kerala" }],
-  viewport: "width=device-width, initial-scale=1.0",
   alternates: {
     canonical: "https://digitalnomadskerala.in/",
   },
+};
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1.0,
 };
 
 export default function RootLayout({
@@ -76,7 +78,6 @@ export default function RootLayout({
         <Analytics />
         <Toaster />
         <GoogleOAuthProvider clientId={envConfig.GOOGLE_CLIENTID}>
-          <Navbar />
           <GlobalProvider>
             <div className="flex flex-col min-h-screen">
               <main className="flex-grow">{children}</main>
